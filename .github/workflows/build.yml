@@ -28,7 +28,7 @@ jobs:
         run: ./gradlew assembleRelease  # Replace with your build command (assembleDebug for debug)
 
       - name: Upload APK as Artifact
-        uses: actions/upload-artifact@v3  # Updated to v3 (new version)
+        uses: actions/upload-artifact@v4  # Updated to v4 (latest version)
         with:
           name: app-release-apk
           path: app/build/outputs/apk/release/app-release.apk  # Path to your generated APK
