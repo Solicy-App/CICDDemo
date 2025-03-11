@@ -1,0 +1,37 @@
+name: Build APK
+
+on:
+  pull_request:
+    branches:
+      - '**'  # Trigger on pull request to any branch
+  push:
+    branches:
+      - '**'  # Trigger on push (merge) to any branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can use macos-latest if your project requires macOS
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 35  # Set the Android API level you need
+          target: android-35  # Ensure this matches your project’s compile SDK version
+
+      - name: Build APK
+        run: ./gradlew assembleRelease  # Replace with your build command (assembleDebug for debug)
+
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release-apk
+          path: app/build/outputs/apk/release/app-release.apk  # Path to your generated APK
