@@ -1,0 +1,38 @@
+name: Build APK
+
+on:
+  pull_request:
+    branches:
+      - '**'  # Trigger on pull request to any branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can use macos-latest if your project requires macOS
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17 (Temurin)
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'  # Set Java version to 17
+          distribution: 'temurin'  # Use Temurin JDK
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          sdk-version: 35  # Set the Android SDK version you need
+          build-tools: 30.0.3  # Optional: specify build tools version if needed
+
+      - name: Build APK
+        run: ./gradlew assembleRelease  # Replace with your build command (assembleDebug for debug)
+
+      - name: List APK Directory (Debugging)
+        run: ls app/build/outputs/apk/release  # Verify APK file exists
+
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v4  # Updated to v4 (latest version)
+        with:
+          name: app-release-apk
+          path: app/build/outputs/apk/release/app-release.apk  # Path to your generated APK
