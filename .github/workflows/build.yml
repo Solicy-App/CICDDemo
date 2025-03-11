@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - '**'  # Trigger on pull request to any branch
-  push:
-    branches:
-      - '**'  # Trigger on push (merge) to any branch
 
 jobs:
   build:
@@ -31,7 +28,7 @@ jobs:
         run: ./gradlew assembleRelease  # Replace with your build command (assembleDebug for debug)
 
       - name: Upload APK as Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Updated to v3 (new version)
         with:
           name: app-release-apk
           path: app/build/outputs/apk/release/app-release.apk  # Path to your generated APK
